@@ -261,7 +261,6 @@
             }
             function _updateChatSettings(config) { // update Chat settings when chat is connected
                 zE('webWidget:on', 'chat:connected', function() {
-                    console.log( "On connected");
                     _handleChatSettings(config);
                     // /show/hide the concierge options in the profile card area
                     zE('webWidget', 'updateSettings', {
@@ -276,23 +275,19 @@
                         }
                     });
                     zE('webWidget:on', 'chat:status', function(status) {
-                        console.log( "On status change");
                         _handleChatSettings(config);
                     });
                     zE('webWidget:on', 'chat:departmentStatus', function(status) {
-                        console.log( "On dept change");
                         _handleChatSettings(config);
                     });
                     // The below 2 functions can be used to identify particular events (chat started/ended), and as a result, perform actions like update 3rd parties (Google Analytics, etc)
                     // execute command on Chat Started
                     zE('webWidget:on', 'chat:start', function() {
-                        console.log( "Chat start");
                         _handleChatSettings(config);
                         // your code here
                     });
                     // execute command on Chat Ended
                     zE('webWidget:on', 'chat:end', function() {
-                        console.log( "Chat end");
                         _handleChatSettings(config);
                         // your code here
                     });
