@@ -342,7 +342,7 @@
                             isChatting = zE && zE('webWidget:get', 'chat:isChatting');
                         if (config.departments.select) {
                             department_status = zE('webWidget:get', 'chat:department', config.departments.select);
-                            isDepartmentOnline = department_status.status === 'online';
+                            isDepartmentOnline = department_status && department_status.status === 'online';
                         }
                         if (isChatting || isDepartmentOnline) {
                             // ONLINE LOGIC
