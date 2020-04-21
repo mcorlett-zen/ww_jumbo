@@ -1,5 +1,5 @@
-
-    // This is upgraded Zendesk Widget handler script. Ver: 1.20 Updated: 2020-03-30
+<script type='text/javascript'>
+// This is upgraded Zendesk Widget handler script. Ver: 1.20 Updated: 2020-03-30
     // MAC: Expose status of chat channel
     // It is intended to simplify the control of Widget behaviour through custom JavaScript configuration
     // Script is using Widget JS API https://developer.zendesk.com/embeddables/docs/widget/introduction
@@ -377,4 +377,4 @@
         };
         window.addEventListener ? window.addEventListener('load', fireWidgetOnLoad, !1) : window.attachEvent ? window.attachEvent('onload', fireWidgetOnLoad) : window.onload = fireWidgetOnLoad
     })(); 
-
+</script>
