@@ -1,5 +1,5 @@
 <script>
-    // This is upgraded Zendesk Widget handler script. Ver: 1.2 Updated: 2020-04-20
+    // This is upgraded Zendesk Widget handler script. Ver: 1.2 Updated: 2020-04-23
     // It is intended to simplify the control of Widget behaviour through custom JavaScript configuration
     // Script is using Widget JS API https://developer.zendesk.com/embeddables/docs/widget/introduction
     // Script expects integrated Chat experience to be available
@@ -392,7 +392,7 @@
                         // 3 - (handled outside of this block) if departments is empty or undefined no department online status check will be applied
                         if (config.departments && config.departments.select) {
                             department_status = zE('webWidget:get', 'chat:department', config.departments.select);
-                            isDepartmentOnline = department_status.status === 'online';                        
+                            isDepartmentOnline = department_status && department_status.status === 'online';
                         } else if (config.departments && config.departments.enabled && config.departments.enabled.length) {
                         	for (var i = 0; i < config.departments.enabled.length; i++) {
                                 var chatDep = zE('webWidget:get', 'chat:department', config.departments.enabled[i]);
