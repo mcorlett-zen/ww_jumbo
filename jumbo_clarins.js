@@ -1,6 +1,5 @@
-<script type='text/javascript'>
-// This is upgraded Zendesk Widget handler script. Ver: 1.20 Updated: 2020-03-30
-    // MAC: Expose status of chat channel
+<script>
+    // This is upgraded Zendesk Widget handler script. Ver: 1.3 Updated: 2020-05-04
     // It is intended to simplify the control of Widget behaviour through custom JavaScript configuration
     // Script is using Widget JS API https://developer.zendesk.com/embeddables/docs/widget/introduction
     // Script expects integrated Chat experience to be available
@@ -8,28 +7,15 @@
     // 1. update WIDGET_KEY
     // 2. Decide which part of the Widget you want to run using runWidgetLogic().init({settings object});
     // 3. Configure {settings object}
-    // 4. Copy final code to desired pages and run.
-
-    // Expose our detected chat status
-    // States are: 
-    // "loading" - page is loading, status is unknown
-    // "avaliable" - chat is available
-    // "unavailable" - chat is not available, agent or dept offline
-    // "chatting" - chat in progress
-    var zeChatStatusEx = "loading";
-
+    // 4. Copy final code to desired pages and run. 
     (function() {
-        var WIDGET_KEY = 'de54a179-0dc2-4a94-b9fa-8715746c09f0';
+        var WIDGET_KEY = '7d9ce1ae-54eb-4ea6-9a21-154bbda1aeba'; // Clarins widget key
         function fireWidgetOnLoad() {
             var zendeskScript = document.createElement('script');
             zendeskScript.src = 'https://static.zdassets.com/ekr/snippet.js?key=' + WIDGET_KEY;
             zendeskScript.id = 'ze-snippet';
             zendeskScript.addEventListener('load', function() {
-
-                /**
-                 * Change the Widget settings.
-                 * @params {object} Config - required object defining Widget channels and settings
-                 */
+                
                 runWidgetLogic().init({
                     // REQUIRED: enable HC Search?
                     HCSearch: true,
@@ -43,125 +29,123 @@
                     answerBot: false,
                     // OPTIONAL: Chat department configuration
                     // enabled: [''] will hide Department selector
-                    // select: 'DEPARTMENT NAME' will preset Chat department
+                    // select: 'Other HR questions (Latvia)' will preset Chat department, 
                     departments: {
-                        enabled: ['Support UK'],
-                        select: 'Support UK'
-                    },
-                    // OPTIONAL: Set widget language https://developer.zendesk.com/embeddables/docs/widget/core#setlocale
-                    // locale: 'en-us',
+                        //enabled: ['Online Orders','SkinSpa & BeautyBAR','Online Promotions & Loyalty','Products','Store Experience']
+                        //select: ''
+                    }, 					
+  					// OPTIONAL: Set widget language https://developer.zendesk.com/embeddables/docs/widget/core#setlocale
+                    locale: 'en-gb',
                     // load the Web Widget in the "show" or "hide" state: https://developer.zendesk.com/embeddables/docs/widget/core#show
                     widget_visibility: 'hide',
-                    //articleLabels: ['topSuggestions'],
-                    //prefill_name: name,
-                    //prefill_email: email,
-                    //identify_name: name,
-                    //identify_email: email,
-                    
+                    articleLabels: ['topSuggestions'],
                     // OPTIONAL: config for window.zESettings.webWidget
                     webWidgetConfig: {
-                        // // Specifies whether to enable or disable Google Analytics tracking. https://support.zendesk.com/hc/en-us/community/posts/360003215947
-                        // analytics: true,
-                        // zIndex: 9999999998,
-                        // contactOptions: {
-                        //     enabled: true,
-                        //     contactButton: {
-                        //         '*': 'Get in Touch'
-                        //     },
-                        //     // The Chat Label on the Contact Options window
-                        //     chatLabelOnline: {
-                        //         '*': 'Live Chat'
-                        //     },
-                        //     chatLabelOffline: {
-                        //         '*': 'Chat is Offline'
-                        //     },
-                        //     // The Contact Form Label
-                        //     contactFormLabel: {
-                        //         '*': 'Send us a message'
-                        //     }
-                        // },
-                        // // The Widget Color
-                        // color: {
-                        //     theme: '#9C8EB5'
-                        // },
-                        // launcher: {
-                        //     // The Web Widget button title (HC/Contact Form are On)
-                        //     label: {
-                        //         '*': 'Need Help?'
-                        //     },
-                        //     // The Web Widget button title (HC is Off)
-                        //     chatLabel: {
-                        //         '*': 'Chat now'
-                        //     },
-                        //     // Set to true if you want to display the label in mobile browsers
-                        //     mobile: {
-                        //         labelVisible: false
-                        //     }
-                        // },
-                        // helpCenter: {
-                        //     // Sets the title of the Help Center Window
-                        //     title: {
-                        //         '*': 'BAT Support'
-                        //     },
-                        //     // Sets the visibility of the button that would redirect the user to the full HC portal    
-                        //     originalArticleButton: true
-                        // },
-                        // contactForm: {
-                        //     title: {
-                        //         '*': 'BAT Support'
-                        //     },
-                        //     // Set a specific ticket form. The form ID can be found in the URL while on the form page. Uncomment the following line to enable this.
-                        //     //ticketForms: [{ id: 360000102598 }, { id: 360000102718 }],
-                        //     // Enable to disable the attachments option in the Contact Forms
-                        //     attachments: true
-                        // },
-                        // // Sets the visibility of the popout button 
-                        // navigation: {
-                        //     popoutButton: {
-                        //         enabled: false
-                        //     }
-                        // },
-                        // talk: {
-                        //     nickname: 'CallBack_bv'
-                        // },
-                        // chat: {
-                        //     prechatForm: {
-                        //         // The Prechat greeting text
-                        //         greeting: {
-                        //             '*': 'Please fill out the form below to start the chat with us.'
-                        //         }
-                        //     },
-                        //     title: {
-                        //         '*': 'Chat with us'
-                        //     },
-                        //     concierge: {
-                        //         // the Concierge parameters
-                        //         avatarPath: 'https://theme.zdassets.com/theme_assets/1023626/8c5e1ce2dd7d5a649a8f297295e52666fa125d81.png',
-                        //         name: 'Welcome to Live Chat',
-                        //         title: {
-                        //             '*': 'How can we help you today ?'
-                        //         }
-                        //     },
-                        //     // Sets the visibility of the "Email Transcript" option on the chat window:https://dl.dropbox.com/s/e822el7vir7ur8p/Web_Widget_chat_Window_menu_options_email_transcript.png?dl=0
-                        //     menuOptions: {
-                        //         emailTranscript: true
-                        //     },
-                        //     // Add the relevant tags to the Chat session
-                        //     tags: ['brand_bv']
-                        // },
-                        // answerBot: {
-                        //     title: {
-                        //         '*': 'BAT Support'
-                        //     },
-                        //     avatar: {
-                        //         //url: '',
-                        //         name: {
-                        //             '*': 'Olivia'
-                        //         }
-                        //     },
-                        //     // Set to TRUE if you want the question to be asked before other contact options are displayed
-                        //     contactOnlyAfterQuery: false
-                        // }
+                        // Specifies whether to enable or disable Google Analytics tracking. https://support.zendesk.com/hc/en-us/community/posts/360003215947
+                        analytics: true,
+                        zIndex: 9999999998,
+                        contactOptions: {
+                            enabled: true,
+                            contactButton: {
+                                '*': 'Get in Touch'
+                            },
+                            // The Chat Label on the Contact Options window
+                            chatLabelOnline: {
+                                '*': 'Live Chat'
+                            },
+                            chatLabelOffline: {
+                                '*': 'Chat is Offline'
+                            },
+                            // The Contact Form Label
+                            contactFormLabel: {
+                                '*': 'Send us a message'
+                            }
+                        },
+                        // The Widget Color
+                        color: {
+                            theme: '#000000'
+                        },
+                        launcher: {
+                            // The Web Widget button title (HC/Contact Form are On)
+                            label: {
+                                '*': 'Have a Question?'
+                            },
+                            // The Web Widget button title (HC is Off)
+                            chatLabel: {
+                                '*': 'Chat now'
+                            },
+                            // Set to true if you want to display the label in mobile browsers
+                            mobile: {
+                                labelVisible: false
+                            }
+                        },
+                        helpCenter: {
+                            // Sets the title of the Help Center Window
+                            title: {
+                                '*': 'Clarins Support'
+                            },
+                            // Sets the visibility of the button that would redirect the user to the full HC portal    
+                            originalArticleButton: false
+                        },
+                        contactForm: {
+                            title: {
+                                '*': 'Clarins Support'
+                            },
+                            // Set a specific ticket form. The form ID can be found in the URL while on the form page. Uncomment the following line to enable this.
+                            ticketForms: [{ id: 360000120758 }],
+                            // Enable to disable the attachments option in the Contact Forms
+                            attachments: true
+                        },
+                        // Sets the visibility of the popout button 
+                        navigation: {
+                            popoutButton: {
+                                enabled: false
+                            }
+                        },
+                        talk: {
+                            nickname: 'callback_clarins'
+                        },
+                        chat: {
+                            prechatForm: {
+                                // The Prechat greeting text
+                                greeting: {
+                                    '*': 'Please fill out the form below to start the chat with us.'
+                                },
+                                departmentLabel: {
+                                    '*': 'What is your issue about?'
+                                }
+                            },
+                            title: {
+                                '*': 'Chat with us'
+                            },
+                            concierge: {
+                                // the Concierge parameters
+                                avatarPath: 'https://theme.zdassets.com/theme_assets/9399077/b73d04d5028bb5eca32f296dfe0ba01784bfcb4c.jpg',
+                                name: 'Welcome to Live Chat',
+                                title: {
+                                    '*': 'How can we help you today ?'
+                                }
+                            },
+                            // Sets the visibility of the "Email Transcript" option on the chat window:https://dl.dropbox.com/s/e822el7vir7ur8p/Web_Widget_chat_Window_menu_options_email_transcript.png?dl=0
+                            menuOptions: {
+                                emailTranscript: true
+                            },
+                            // Add the relevant tags to the Chat session
+                            tags: ['brand_clarins']
+                        },
+                        answerBot: {
+                            title: {
+                                '*': 'Clarins Support'
+                            },
+                            avatar: {
+                                //url: '',
+                                name: {
+                                    '*': 'Olivia'
+                                }
+                            },
+                            // Set to TRUE if you want the question to be asked before other contact options are displayed
+                            contactOnlyAfterQuery: false
+                        }
                     }
                 });
             });
@@ -174,7 +158,7 @@
                 if (zE && config) {
                     window.onload = _applyWidgetConfig(config);
                 } else {
-                    console.log('ERROR: Widget or Widget configuration is missing. Widget settings will not be appllied.');
+                    console.warn('ERROR: Web Widget is missing or Web Widget configuration is missing, broken or missformatted. Widget settings will not be appllied.');
                     return;
                 }
             };
@@ -195,7 +179,7 @@
             function _ww_visibility(widget_visibility) { // set the Widget visibility (hide/open/show)
                 widget_visibility && zE('webWidget', widget_visibility);
             }
-            function _setKBSuggestions(articleLabels) { // set the Widget language
+            function _setKBSuggestions(articleLabels) { // set the Widget suggested articles
                 articleLabels && zE('webWidget', 'helpCenter:setSuggestions', {
                     labels: articleLabels
                 });
@@ -218,7 +202,7 @@
                     email: identify_email
                 });
             }
-            function _updatePath(pathObject) { // update the chat visitor’s webpath.
+            function _updatePath(pathObject) { // update the chat visitor's webpath.
                 pathObject && zE('webWidget', 'updatePath', pathObject);
             }
             function _setSurpressSettingProp(prop, val) { // extend config with suppress logic
@@ -247,7 +231,7 @@
                 _setSurpressSettingProp('contactForm', !config.contactForm);
                 _setSurpressSettingProp('talk', !config.talk);
                 _setSurpressSettingProp('answerBot', !config.answerBot);
-                // _setSurpressSettingProp('chat', !config.chat); // NB suppressing chat channel is handled after chat is connected
+                // _setSurpressSettingProp('chat', !config.chat); // suppressing chat channel is handled after chat is connected
                 _adjustChatLabel(config.HCSearch, config.chat, config.contactForm)
             }
             function _adjustChatLabel(HCSearch, chat, contactForm) { // change launcher label if contact options and chat are enabled
@@ -283,15 +267,14 @@
                     // The below 2 functions can be used to identify particular events (chat started/ended), and as a result, perform actions like update 3rd parties (Google Analytics, etc)
                     // execute command on Chat Started
                     zE('webWidget:on', 'chat:start', function() {
-                        _handleChatSettings(config);
                         // your code here
                     });
                     // execute command on Chat Ended
                     zE('webWidget:on', 'chat:end', function() {
-                        _handleChatSettings(config);
                         // your code here
                     });
-                    // When visitor is chatting on one page and navigates to the page where chat is supressed
+
+                    // When visitor is chating on one page and navigates to the page where chat is supressed
                     // it should re-open the Widget on the chat screen. Since there is no method to show chat screen
                     // this workaround will supress other channels > show Widget on the chat screen > re-enable
                     // other channels as per the config. Visitor may need to minimize and re-open the wiget to
@@ -334,20 +317,97 @@
                     }
                 });
             }
+
+            // Possible 'channel' values = helpCenter, contactForm, talk, answerBot
+            // config = global variable for config
+            // Suppress all Widget channels expect the given one and display the Widget
+            // Intended to be used when Widget is controlled outside. For example,
+            // Link on web site header to open contact form
+            function _openChannel(channel, config) { 
+            	var allowedChannels = ["contactForm","chat"]; // limiting channels to desired ones
+            	if (channel && allowedChannels.indexOf(channel) > -1) {
+            		zE('webWidget', 'updateSettings', _getSingleChanelSettings(channel));
+            		zE('webWidget', 'show');
+	               	zE('webWidget', 'open');
+            	}
+            	onCloseRevertBackWidgetConfig(config);
+            }
+
+            // Add event listener when Widget is minimised
+            // Function will be executed only once
+            var onCloseRevertBackWidgetConfig = (function(config) {
+			    var executed = false;
+			    return function(config) {
+			        if (!executed) {
+			            executed = true;
+			            zE('webWidget:on', 'close', function() {
+						    zE('webWidget', 'updateSettings', _getDefaultWidgetSettings(config));
+						});
+			        }
+			    };
+			})();
+
+            // config = global variable for config
+            // return the original state of widget channels
+            function _getDefaultWidgetSettings(config) {
+            	return {
+	                    helpCenter: { 'suppress': !config.HCSearch },
+	                    contactForm: { 'suppress': !config.contactForm },
+	                    talk: { 'suppress': !config.talk },
+	                    answerBot: { 'suppress': !config.answerBot },
+	                    chat: { 'suppress': !config.chat }
+	                };
+            }
+
+            // Possible 'channel' values = helpCenter, contactForm, talk, answerBot
+            // Return all Widget channels suppressed except the desired one
+            function _getSingleChanelSettings(channel) {
+            	var defaultWidgetSettings = {
+	                    helpCenter: { 'suppress': true },
+	                    contactForm: { 'suppress': true },
+	                    talk: { 'suppress': true },
+	                    answerBot: { 'suppress': true },
+	                    chat: { 'suppress': true }
+	                };
+	            defaultWidgetSettings[channel].suppress = false;
+	            
+	            return defaultWidgetSettings;
+            }
+
+            // check whether chat departments were defined
+            function _isChatDepartamentDefined(departments) {
+            	return !departments || ((departments.enabled !== undefined) || (departments.select !== undefined));
+            }
+
             function _handleChatSettings(config) {
                 setTimeout(function() { // Delay is needed to allow chat server to update. Otherwise isChatting is always true
-                    if (config.departments) {
+                    if (_isChatDepartamentDefined(config.departments)) {
                         var department_status,
                             isDepartmentOnline,
                             isChatting = zE && zE('webWidget:get', 'chat:isChatting');
-                        if (config.departments.select) {
+                        
+                        // Handles different combinations od Chat departments config
+                        // 1 - when department is selected it will suppress chat based on that department online status
+                        // 2 - when department is NOT selected it will suppress chat if none of listed departments is online
+                        // 3 - (handled outside of this block) if departments is empty or undefined no department online status check will be applied
+                        if (config.departments && config.departments.select) {
                             department_status = zE('webWidget:get', 'chat:department', config.departments.select);
                             isDepartmentOnline = department_status && department_status.status === 'online';
+                        } else if (config.departments && config.departments.enabled && config.departments.enabled.length) {
+                        	for (var i = 0; i < config.departments.enabled.length; i++) {
+                                var chatDep = zE('webWidget:get', 'chat:department', config.departments.enabled[i]);
+                                if (chatDep === undefined) {
+                                    console.warn('ERROR: The following department does not exist or may have incorrect name: ' + config.departments.enabled[i]);
+                                }
+                        		if (chatDep && (chatDep.status === 'online')) {
+                        			isDepartmentOnline = true;
+                        			break;
+                        		}
+                        	}
                         }
                         if (isChatting || isDepartmentOnline) {
                             // ONLINE LOGIC
                             // Chat will be suppressed when noone is chatting or when department is offline
-                            zeChatStatusEx = isChatting ? "chatting" : "available";
                             zE('webWidget', 'updateSettings', {
                                 webWidget: {
                                     chat: {
@@ -357,7 +417,6 @@
                                 }
                             });
                         } else {
-                            zeChatStatusEx = "unavailable";
                             // OFFLINE & UNDEFINED LOGIC (undefined = a department with this name doesn't exist OR the department has been disabled)
                             // suppress the Chat channel as the targeted department is offline
                             zE('webWidget', 'updateSettings', {
