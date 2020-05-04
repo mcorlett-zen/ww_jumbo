@@ -66,7 +66,7 @@
                     email: identify_email
                 });
             }
-            function _updatePath(pathObject) { // update the chat visitor’s webpath.
+            function _updatePath(pathObject) { // update the chat visitor's webpath.
                 pathObject && zE('webWidget', 'updatePath', pathObject);
             }
             function _setSurpressSettingProp(prop, val) { // extend config with suppress logic
